@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { StepperInput } from "@/components/ui/stepper-input";
+import { Mars, Venus } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select";
 
 const ACTIVITY_MULTIPLIERS = {
-  sedentary: { label: "Sedentary (little/no exercise)", value: 1.2 },
+  sedentary: { label: "Sedentary (office job)", value: 1.2 },
   light: { label: "Lightly active (1–3 days/week)", value: 1.375 },
   moderate: { label: "Moderately active (3–5 days/week)", value: 1.55 },
   active: { label: "Very active (6–7 days/week)", value: 1.725 },
@@ -33,166 +33,139 @@ function calcBMR(weight: number, height: number, age: number, sex: Sex) {
 export default function TdeeCalculator() {
   const [unit, setUnit] = useState<Unit>("metric");
   const [sex, setSex] = useState<Sex>("male");
-  const [age, setAge] = useState("");
-  const [weight, setWeight] = useState("");
-  const [height, setHeight] = useState("");
-  const [heightFt, setHeightFt] = useState("");
-  const [heightIn, setHeightIn] = useState("");
-  const [activity, setActivity] = useState<ActivityKey>("moderate");
-  const [result, setResult] = useState<{ bmr: number; tdee: number } | null>(null);
+  const [age, setAge] = useState(25);
+  const [weight, setWeight] = useState(70);
+  const [height, setHeight] = useState(175);
+  const [heightFt, setHeightFt] = useState(5);
+  const [heightIn, setHeightIn] = useState(10);
+  const [activity, setActivity] = useState<ActivityKey>("sedentary");
+  const [bodyFat, setBodyFat] = useState(20);
 
-  function calculate() {
-    const ageNum = parseFloat(age);
-    let weightKg = parseFloat(weight);
+  const result = useMemo(() => {
+    let weightKg = weight;
     let heightCm: number;
 
     if (unit === "imperial") {
-      weightKg = parseFloat(weight) * 0.453592;
-      const ft = parseFloat(heightFt) || 0;
-      const inches = parseFloat(heightIn) || 0;
-      heightCm = (ft * 12 + inches) * 2.54;
+      weightKg = weight * 0.453592;
+      heightCm = (heightFt * 12 + heightIn) * 2.54;
     } else {
-      heightCm = parseFloat(height);
+      heightCm = height;
     }
 
-    if (!ageNum || !weightKg || !heightCm) return;
+    if (!age || !weightKg || !heightCm) return null;
 
-    const bmr = calcBMR(weightKg, heightCm, ageNum, sex);
+    const leanMass = weightKg * (1 - bodyFat / 100);
+    const bmr = bodyFat > 0
+      ? 370 + 21.6 * leanMass
+      : calcBMR(weightKg, heightCm, age, sex);
     const tdee = bmr * ACTIVITY_MULTIPLIERS[activity].value;
-    setResult({ bmr: Math.round(bmr), tdee: Math.round(tdee) });
-  }
+    return { bmr: Math.round(bmr), tdee: Math.round(tdee) };
+  }, [unit, sex, age, weight, height, heightFt, heightIn, activity, bodyFat]);
 
   return (
     <div className="w-full max-w-md mx-auto px-4 py-8 space-y-6">
-      <div className="text-center space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight">FitCal</h1>
-        <p className="text-muted-foreground text-sm">
-          Find your Total Daily Energy Expenditure
-        </p>
+
+      {/* Unit toggle */}
+      <div className="flex w-full bg-muted rounded-[12px] p-1 gap-1">
+        {(["metric", "imperial"] as Unit[]).map((u) => (
+          <button
+            key={u}
+            onClick={() => setUnit(u)}
+            className={`flex-1 rounded-full py-2.5 text-sm font-medium transition-colors ${
+              unit === u
+                ? "bg-foreground text-background rounded-[8px]"
+                : "text-muted-foreground hover:text-foreground rounded-[8px]"
+            }`}
+          >
+            {u === "metric" ? "Metric (kg, cm)" : "Imperial (lbs, in)"}
+          </button>
+        ))}
       </div>
 
-      <Card>
-        <CardHeader className="pb-4">
-          <CardTitle className="text-base font-medium">Your details</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-5">
-          {/* Unit toggle */}
+      {/* Gender + Age */}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-1.5">
+          <Label>Gender</Label>
           <div className="flex gap-2">
-            <Button
-              variant={unit === "metric" ? "default" : "outline"}
-              size="sm"
-              className="flex-1"
-              onClick={() => setUnit("metric")}
-            >
-              Metric
-            </Button>
-            <Button
-              variant={unit === "imperial" ? "default" : "outline"}
-              size="sm"
-              className="flex-1"
-              onClick={() => setUnit("imperial")}
-            >
-              Imperial
-            </Button>
+            {(["male", "female"] as Sex[]).map((s) => (
+              <button
+                key={s}
+                onClick={() => setSex(s)}
+                className={`flex-1 flex items-center justify-center rounded-[12px] border h-[66px] text-xl shadow-sm transition-colors ${
+                  sex === s
+                    ? "bg-foreground text-background border-foreground"
+                    : "bg-card border-border text-muted-foreground hover:text-foreground"
+                }`}
+                aria-label={s}
+              >
+                {s === "male" ? <Mars className="w-6 h-6" strokeWidth={2} /> : <Venus className="w-6 h-6" strokeWidth={2} />}
+              </button>
+            ))}
           </div>
+        </div>
+        <div className="space-y-1.5">
+          <Label>Age</Label>
+          <StepperInput value={age} onChange={setAge} min={10} max={100} />
+        </div>
+      </div>
 
-          {/* Sex */}
-          <div className="flex gap-2">
-            <Button
-              variant={sex === "male" ? "default" : "outline"}
-              size="sm"
-              className="flex-1"
-              onClick={() => setSex("male")}
-            >
-              Male
-            </Button>
-            <Button
-              variant={sex === "female" ? "default" : "outline"}
-              size="sm"
-              className="flex-1"
-              onClick={() => setSex("female")}
-            >
-              Female
-            </Button>
-          </div>
-
-          {/* Age */}
+      {/* Height + Weight */}
+      {unit === "metric" ? (
+        <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1.5">
-            <Label htmlFor="age">Age</Label>
-            <Input
-              id="age"
-              type="number"
-              placeholder="25"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-            />
+            <Label>Height (cm)</Label>
+            <StepperInput value={height} onChange={setHeight} min={100} max={250} />
           </div>
-
-          {/* Weight */}
           <div className="space-y-1.5">
-            <Label htmlFor="weight">
-              Weight ({unit === "metric" ? "kg" : "lbs"})
-            </Label>
-            <Input
-              id="weight"
-              type="number"
-              placeholder={unit === "metric" ? "70" : "154"}
-              value={weight}
-              onChange={(e) => setWeight(e.target.value)}
-            />
+            <Label>Weight (kg)</Label>
+            <StepperInput value={weight} onChange={setWeight} min={20} max={300} step={0.5} decimals={1} />
           </div>
-
-          {/* Height */}
+        </div>
+      ) : (
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <Label>Height (ft)</Label>
+              <StepperInput value={heightFt} onChange={setHeightFt} min={3} max={8} />
+            </div>
+            <div className="space-y-1.5">
+              <Label>Inches</Label>
+              <StepperInput value={heightIn} onChange={setHeightIn} min={0} max={11} />
+            </div>
+          </div>
           <div className="space-y-1.5">
-            <Label>Height ({unit === "metric" ? "cm" : "ft / in"})</Label>
-            {unit === "metric" ? (
-              <Input
-                type="number"
-                placeholder="175"
-                value={height}
-                onChange={(e) => setHeight(e.target.value)}
-              />
-            ) : (
-              <div className="flex gap-2">
-                <Input
-                  type="number"
-                  placeholder="5 ft"
-                  value={heightFt}
-                  onChange={(e) => setHeightFt(e.target.value)}
-                />
-                <Input
-                  type="number"
-                  placeholder="10 in"
-                  value={heightIn}
-                  onChange={(e) => setHeightIn(e.target.value)}
-                />
-              </div>
-            )}
+            <Label>Weight (lbs)</Label>
+            <StepperInput value={weight} onChange={setWeight} min={44} max={660} step={0.5} decimals={1} />
           </div>
+        </div>
+      )}
 
-          {/* Activity */}
-          <div className="space-y-1.5">
-            <Label>Activity level</Label>
-            <Select value={activity} onValueChange={(v) => setActivity(v as ActivityKey)}>
-              <SelectTrigger className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {Object.entries(ACTIVITY_MULTIPLIERS).map(([key, { label }]) => (
-                  <SelectItem key={key} value={key}>
-                    {label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+      {/* Activity level */}
+      <div className="space-y-1.5">
+        <Label>Activity level</Label>
+        <Select value={activity} onValueChange={(v) => setActivity(v as ActivityKey)}>
+          <SelectTrigger className="w-full bg-card border border-border rounded-[12px] px-4 shadow-sm ![height:66px] text-base">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {Object.entries(ACTIVITY_MULTIPLIERS).map(([key, { label }]) => (
+              <SelectItem key={key} value={key}>
+                {label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
-          <Button className="w-full" onClick={calculate}>
-            Calculate
-          </Button>
-        </CardContent>
-      </Card>
+      {/* Body fat % */}
+      <div className="space-y-1.5">
+        <Label>Body fat % <span className="text-muted-foreground">(optional)</span></Label>
+        <div className="w-1/2">
+          <StepperInput value={bodyFat} onChange={setBodyFat} min={3} max={60} />
+        </div>
+      </div>
 
+      {/* Results */}
       {result && (
         <Card>
           <CardHeader className="pb-4">
@@ -204,16 +177,8 @@ export default function TdeeCalculator() {
               <ResultBox label="TDEE" value={result.tdee} sub="maintenance calories" highlight />
             </div>
             <div className="grid grid-cols-2 gap-3">
-              <ResultBox
-                label="Cut"
-                value={result.tdee - 500}
-                sub="−500 kcal/day"
-              />
-              <ResultBox
-                label="Bulk"
-                value={result.tdee + 500}
-                sub="+500 kcal/day"
-              />
+              <ResultBox label="Cut" value={result.tdee - 500} sub="−500 kcal/day" />
+              <ResultBox label="Bulk" value={result.tdee + 500} sub="+500 kcal/day" />
             </div>
           </CardContent>
         </Card>
@@ -242,7 +207,7 @@ function ResultBox({
       }`}
     >
       <p className="text-xs uppercase tracking-wide font-medium">{label}</p>
-      <p className={`text-2xl font-bold ${highlight ? "text-primary-foreground" : "text-foreground"}`}>
+      <p className={`text-2xl font-bold font-mono ${highlight ? "text-primary-foreground" : "text-foreground"}`}>
         {value.toLocaleString()}
       </p>
       <p className="text-xs">{sub}</p>
