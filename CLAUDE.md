@@ -14,7 +14,7 @@
 
 ## Deployment
 - GitHub → Railway (auto-deploy on push to main)
-- Domain: fitcal.net (DNS at Hover → Railway)
+- Domain: fitcalc.net (DNS at Hover → Railway)
 
 ## Formulas
 - BMR: Mifflin-St Jeor

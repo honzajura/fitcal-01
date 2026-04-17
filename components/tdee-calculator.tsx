@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { StepperInput } from "@/components/ui/stepper-input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Mars, Venus } from "lucide-react";
 import {
   Select,
@@ -39,28 +40,23 @@ export default function TdeeCalculator() {
   const [heightFt, setHeightFt] = useState(5);
   const [heightIn, setHeightIn] = useState(10);
   const [activity, setActivity] = useState<ActivityKey>("sedentary");
+  const [useBodyFat, setUseBodyFat] = useState(false);
   const [bodyFat, setBodyFat] = useState(20);
 
-  const result = useMemo(() => {
-    let weightKg = weight;
-    let heightCm: number;
+  let result: { bmr: number; tdee: number } | null = null;
+  {
+    let weightKg = unit === "imperial" ? weight * 0.453592 : weight;
+    let heightCm = unit === "imperial" ? (heightFt * 12 + heightIn) * 2.54 : height;
 
-    if (unit === "imperial") {
-      weightKg = weight * 0.453592;
-      heightCm = (heightFt * 12 + heightIn) * 2.54;
-    } else {
-      heightCm = height;
+    if (age > 0 && weightKg > 0 && heightCm > 0) {
+      const effectiveWeight = useBodyFat && bodyFat > 0
+        ? weightKg * (1 - bodyFat / 100)
+        : weightKg;
+      const bmr = calcBMR(effectiveWeight, heightCm, age, sex);
+      const tdee = bmr * ACTIVITY_MULTIPLIERS[activity].value;
+      result = { bmr: Math.round(bmr), tdee: Math.round(tdee) };
     }
-
-    if (!age || !weightKg || !heightCm) return null;
-
-    const leanMass = weightKg * (1 - bodyFat / 100);
-    const bmr = bodyFat > 0
-      ? 370 + 21.6 * leanMass
-      : calcBMR(weightKg, heightCm, age, sex);
-    const tdee = bmr * ACTIVITY_MULTIPLIERS[activity].value;
-    return { bmr: Math.round(bmr), tdee: Math.round(tdee) };
-  }, [unit, sex, age, weight, height, heightFt, heightIn, activity, bodyFat]);
+  }
 
   return (
     <div className="w-full max-w-md mx-auto px-4 py-8 space-y-6">
@@ -158,11 +154,22 @@ export default function TdeeCalculator() {
       </div>
 
       {/* Body fat % */}
-      <div className="space-y-1.5">
-        <Label>Body fat % <span className="text-muted-foreground">(optional)</span></Label>
-        <div className="w-1/2">
-          <StepperInput value={bodyFat} onChange={setBodyFat} min={3} max={60} />
+      <div className="space-y-3">
+        <div className="flex items-center gap-2">
+          <Checkbox
+            id="use-bodyfat"
+            checked={useBodyFat}
+            onCheckedChange={(v) => setUseBodyFat(!!v)}
+          />
+          <Label htmlFor="use-bodyfat" className="cursor-pointer">
+            Include body fat % <span className="text-muted-foreground">(more accurate)</span>
+          </Label>
         </div>
+        {useBodyFat && (
+          <div className="w-1/2">
+            <StepperInput value={bodyFat} onChange={setBodyFat} min={3} max={60} />
+          </div>
+        )}
       </div>
 
       {/* Results */}
