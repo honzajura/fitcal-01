@@ -87,7 +87,7 @@ export default function TdeeCalculator() {
               <button
                 key={s}
                 onClick={() => setSex(s)}
-                className={`flex-1 flex items-center justify-center rounded-[12px] border h-[66px] text-xl shadow-sm transition-colors ${
+                className={`flex-1 flex items-center justify-center rounded-[12px] border h-[66px] text-xl transition-colors ${
                   sex === s
                     ? "bg-foreground text-background border-foreground"
                     : "bg-card border-border text-muted-foreground hover:text-foreground"
@@ -140,7 +140,7 @@ export default function TdeeCalculator() {
       <div className="space-y-1.5">
         <Label>Activity level</Label>
         <Select value={activity} onValueChange={(v) => setActivity(v as ActivityKey)}>
-          <SelectTrigger className="w-full bg-card border border-border rounded-[12px] px-4 shadow-sm ![height:66px] text-base">
+          <SelectTrigger className="w-full bg-card border border-border rounded-[12px] px-4 ![height:66px] text-base">
             <SelectValue>{ACTIVITY_MULTIPLIERS[activity].label}</SelectValue>
           </SelectTrigger>
           <SelectContent>
@@ -174,7 +174,7 @@ export default function TdeeCalculator() {
 
       {/* Results */}
       {result && (
-        <Card className="bg-muted shadow-sm ring-0">
+        <Card className="bg-muted ring-0">
           <CardHeader className="pb-4">
             <CardTitle className="text-base font-medium">Your results</CardTitle>
           </CardHeader>

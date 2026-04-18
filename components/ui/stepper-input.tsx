@@ -57,7 +57,7 @@ export function StepperInput({ value, onChange, min, max, step = 1, suffix, deci
   const display = decimals !== undefined ? value.toFixed(decimals) : Number.isInteger(value) ? value.toString() : value.toFixed(1);
 
   return (
-    <div className="flex items-center justify-between bg-card border border-border rounded-[12px] px-1.5 py-2.5 shadow-sm">
+    <div className="flex items-center justify-between bg-card border border-border rounded-[12px] px-1.5 py-2.5">
       <Button
         variant="ghost"
         size="icon"
