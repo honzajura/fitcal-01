@@ -33,7 +33,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <header className="w-full">
-            <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-end border-b border-border">
+            <div className="max-w-5xl mx-auto px-4 pt-3 flex items-center justify-end">
               <ThemeToggle />
             </div>
           </header>

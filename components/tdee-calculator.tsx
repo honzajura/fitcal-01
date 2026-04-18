@@ -59,7 +59,7 @@ export default function TdeeCalculator() {
   }
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 py-8 grid gap-8 md:grid-cols-[1fr_360px]">
+    <div className="w-full max-w-5xl mx-auto px-4 pt-4 pb-8 grid gap-8 md:grid-cols-[1fr_360px]">
 
       <div className="space-y-6 min-w-0">
 
