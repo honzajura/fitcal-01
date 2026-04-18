@@ -4,153 +4,238 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ============================================================
+   DESIGN TOKENS
+   ------------------------------------------------------------
+   Edit values here to re-skin the app. Tailwind utilities
+   (bg-muted, text-foreground, etc.) bind to these via the
+   @theme inline block further down — you rarely need to touch
+   that block.
+
+   Neutrals use Tailwind's zinc scale. Pick from this palette
+   whenever you need a grey so the UI stays coherent:
+     zinc-50   oklch(0.985 0.001 286.375)
+     zinc-100  oklch(0.967 0.001 286.375)
+     zinc-200  oklch(0.920 0.004 286.320)
+     zinc-300  oklch(0.871 0.006 286.286)
+     zinc-400  oklch(0.705 0.015 286.067)
+     zinc-500  oklch(0.552 0.014 285.938)
+     zinc-600  oklch(0.442 0.017 285.786)
+     zinc-700  oklch(0.370 0.013 285.805)
+     zinc-800  oklch(0.274 0.006 286.033)
+     zinc-900  oklch(0.210 0.006 285.885)
+     zinc-950  oklch(0.141 0.005 285.823)
+
+   Brand red: oklch(0.6152 0.1657 26.98)
+   ============================================================ */
+
 :root {
-  --background: oklch(1.0000 0 0);
-  --foreground: oklch(0.2178 0 0);
-  --card: oklch(1.0000 0 0);
-  --card-foreground: oklch(0.2178 0 0);
-  --popover: oklch(1.0000 0 0);
-  --popover-foreground: oklch(0.2178 0 0);
-  --primary: oklch(0.6152 0.1657 26.9800);
-  --primary-foreground: oklch(1.0000 0 0);
-  --secondary: oklch(1.0000 0 0);
-  --secondary-foreground: oklch(0.2264 0 0);
-  --muted: oklch(1.0000 0 0);
-  --muted-foreground: oklch(0.6334 0 0);
-  --accent: oklch(1.0000 0 0);
-  --accent-foreground: oklch(0.2264 0 0);
-  --destructive: oklch(0.5954 0.2344 23.9586);
-  --destructive-foreground: oklch(1.0000 0 0);
-  --border: oklch(0.88 0 0);
-  --input: oklch(0.94 0 0);
-  --ring: oklch(0.8109 0 0);
+  /* --- Surfaces (page / card / popover backgrounds) --- */
+  --background: oklch(1 0 0);   /* white */
+  --card:       oklch(1 0 0);
+  --popover:    oklch(1 0 0);
+
+  /* --- Text on surfaces --- */
+  --foreground:         oklch(0.21 0.006 285.885);   /* zinc-900 */
+  --card-foreground:    oklch(0.21 0.006 285.885);
+  --popover-foreground: oklch(0.21 0.006 285.885);
+  --muted-foreground:   oklch(0.552 0.014 285.938);  /* zinc-500, secondary text */
+
+  /* --- Neutral fills (subtle grey backgrounds) --- */
+  --muted:                oklch(0.967 0.001 286.375); /* zinc-100 */
+  --secondary:            oklch(0.967 0.001 286.375); /* zinc-100 */
+  --secondary-foreground: oklch(0.21  0.006 285.885);
+  --accent:               oklch(0.967 0.001 286.375); /* zinc-100 */
+  --accent-foreground:    oklch(0.21  0.006 285.885);
+
+  /* --- Borders, inputs, focus ring --- */
+  --border: oklch(0.92  0.004 286.320);  /* zinc-200 */
+  --input:  oklch(0.92  0.004 286.320);  /* zinc-200 */
+  --ring:   oklch(0.871 0.006 286.286);  /* zinc-300 */
+
+  /* --- Brand --- */
+  --primary:            oklch(0.6152 0.1657 26.98);  /* brand red */
+  --primary-foreground: oklch(1 0 0);
+
+  /* --- Destructive / error --- */
+  --destructive:            oklch(0.5954 0.2344 23.9586);
+  --destructive-foreground: oklch(1 0 0);
+
+  /* --- Charts (unrelated to greyscale, tuned for data viz) --- */
   --chart-1: oklch(0.9667 0.0148 251.1556);
   --chart-2: oklch(0.7422 0.1166 260.2000);
   --chart-3: oklch(0.6588 0.1585 264.3926);
   --chart-4: oklch(0.5814 0.1857 265.2966);
   --chart-5: oklch(0.4861 0.2073 266.0672);
-  --sidebar: oklch(1.0000 0 0);
-  --sidebar-foreground: oklch(0.2178 0 0);
-  --sidebar-primary: oklch(0.2264 0 0);
-  --sidebar-primary-foreground: oklch(1.0000 0 0);
-  --sidebar-accent: oklch(1.0000 0 0);
-  --sidebar-accent-foreground: oklch(0.2264 0 0);
-  --sidebar-border: oklch(1.0000 0 0);
-  --sidebar-ring: oklch(0.8109 0 0);
-  --font-sans: var(--font-geist), ui-sans-serif, sans-serif, system-ui;
+
+  /* --- Sidebar (mirrors main palette; kept separate so sidebar
+         can diverge from page chrome if needed) --- */
+  --sidebar:                    oklch(1 0 0);
+  --sidebar-foreground:         oklch(0.21  0.006 285.885);
+  --sidebar-primary:            oklch(0.21  0.006 285.885);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent:             oklch(0.967 0.001 286.375);
+  --sidebar-accent-foreground:  oklch(0.21  0.006 285.885);
+  --sidebar-border:             oklch(0.92  0.004 286.320);
+  --sidebar-ring:               oklch(0.871 0.006 286.286);
+
+  /* --- Typography --- */
+  --font-sans:  var(--font-geist), ui-sans-serif, sans-serif, system-ui;
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-  --radius: 0rem;
-  --shadow-x: 0;
-  --shadow-y: 1px;
-  --shadow-blur: 3px;
-  --shadow-spread: 0px;
-  --shadow-opacity: 0.1;
-  --shadow-color: oklch(0 0 0);
-  --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 2px 4px -1px hsl(0 0% 0% / 0.10);
-  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
-  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
-  --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+  --font-mono:  var(--font-geist-mono), ui-monospace, monospace;
   --tracking-normal: 0em;
-  --spacing: 0.25rem;
+
+  /* --- Layout --- */
+  --radius:  0rem;     /* base corner radius; sm/md/lg/xl derived below */
+  --spacing: 0.25rem;  /* 1 Tailwind spacing unit */
+
+  /* --- Shadows (soft 10% black dropshadow scale) --- */
+  --shadow-color:   oklch(0 0 0);
+  --shadow-opacity: 0.1;
+  --shadow-x:       0;
+  --shadow-y:       1px;
+  --shadow-blur:    3px;
+  --shadow-spread:  0px;
+  --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+  --shadow-xs:  0 1px 3px 0px hsl(0 0% 0% / 0.05);
+  --shadow-sm:  0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
+  --shadow:     0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
+  --shadow-md:  0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 2px 4px -1px hsl(0 0% 0% / 0.10);
+  --shadow-lg:  0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
+  --shadow-xl:  0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
+  --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
 }
 
+/* ------------------------------------------------------------
+   DARK THEME
+   Overrides only what differs from :root. Tokens not listed
+   here inherit the light values.
+   ------------------------------------------------------------ */
 .dark {
-  --background: oklch(0 0 0);
-  --foreground: oklch(1.0000 0 0);
-  --card: oklch(0 0 0);
-  --card-foreground: oklch(1.0000 0 0);
-  --popover: oklch(0 0 0);
-  --popover-foreground: oklch(1.0000 0 0);
-  --primary: oklch(0.6152 0.1657 26.9800);
-  --primary-foreground: oklch(0 0 0);
-  --secondary: oklch(0.6152 0.1657 26.9800);
+  /* --- Surfaces --- */
+  --background: oklch(0 0 0);   /* black */
+  --card:       oklch(0 0 0);
+  --popover:    oklch(0 0 0);
+
+  /* --- Text on surfaces --- */
+  --foreground:         oklch(1 0 0);
+  --card-foreground:    oklch(1 0 0);
+  --popover-foreground: oklch(1 0 0);
+  --muted-foreground:   oklch(0.705 0.015 286.067);  /* zinc-400 */
+
+  /* --- Neutral & brand fills ---
+         In dark mode secondary/accent use brand red by design,
+         not grey — only --muted stays neutral. */
+  --muted:                oklch(0.274 0.006 286.033); /* zinc-800 */
+  --secondary:            oklch(0.6152 0.1657 26.98); /* brand red */
   --secondary-foreground: oklch(0 0 0);
-  --muted: oklch(0.2246 0.0094 107.1335);
-  --muted-foreground: oklch(1.0000 0 0);
-  --accent: oklch(0.6152 0.1657 26.9800);
-  --accent-foreground: oklch(0 0 0);
-  --destructive: oklch(0.6152 0.1657 26.9800);
+  --accent:               oklch(0.6152 0.1657 26.98); /* brand red */
+  --accent-foreground:    oklch(0 0 0);
+
+  /* --- Borders, inputs, focus ring --- */
+  --border: oklch(0.370 0.013 285.805);   /* zinc-700 */
+  --input:  oklch(0.274 0.006 286.033);   /* zinc-800 */
+  --ring:   oklch(0.6152 0.1657 26.98);   /* brand red focus */
+
+  /* --- Brand --- */
+  --primary:            oklch(0.6152 0.1657 26.98);
+  --primary-foreground: oklch(0 0 0);
+
+  /* --- Destructive (uses brand red in dark) --- */
+  --destructive:            oklch(0.6152 0.1657 26.98);
   --destructive-foreground: oklch(0 0 0);
-  --border: oklch(0.4 0 0);
-  --input: oklch(0.22 0 0);
-  --ring: oklch(0.6152 0.1657 26.9800);
+
+  /* --- Charts --- */
   --chart-1: oklch(0.7152 0.1485 58.8324);
   --chart-2: oklch(0.8299 0.1718 107.4066);
   --chart-3: oklch(0.5798 0.1829 259.5141);
   --chart-4: oklch(0.4962 0.2332 288.0574);
-  --chart-5: oklch(0.6152 0.1657 26.9800);
-  --sidebar: oklch(0 0 0);
-  --sidebar-foreground: oklch(1.0000 0 0);
-  --sidebar-primary: oklch(0.6152 0.1657 26.9800);
-  --sidebar-primary-foreground: oklch(1.0000 0 0);
-  --sidebar-accent: oklch(0.6152 0.1657 26.9800);
-  --sidebar-accent-foreground: oklch(0 0 0);
-  --sidebar-border: oklch(0 0 0);
-  --sidebar-ring: oklch(0.6152 0.1657 26.9800);
-  --font-sans: var(--font-geist), ui-sans-serif, sans-serif, system-ui;
-  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-  --radius: 0rem;
+  --chart-5: oklch(0.6152 0.1657 26.98);
+
+  /* --- Sidebar --- */
+  --sidebar:                    oklch(0 0 0);
+  --sidebar-foreground:         oklch(1 0 0);
+  --sidebar-primary:            oklch(0.6152 0.1657 26.98);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent:             oklch(0.6152 0.1657 26.98);
+  --sidebar-accent-foreground:  oklch(0 0 0);
+  --sidebar-border:             oklch(0 0 0);
+  --sidebar-ring:               oklch(0.6152 0.1657 26.98);
 }
 
+/* ============================================================
+   TAILWIND THEME BINDINGS
+   ------------------------------------------------------------
+   Exposes the tokens above as Tailwind utilities
+   (bg-muted, text-foreground, border-border, shadow-sm, …).
+   Only edit this block to add/remove a utility — for colour
+   or value changes, edit the token in :root above.
+   ============================================================ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
+  /* Colours */
+  --color-background:            var(--background);
+  --color-foreground:            var(--foreground);
+  --color-card:                  var(--card);
+  --color-card-foreground:       var(--card-foreground);
+  --color-popover:               var(--popover);
+  --color-popover-foreground:    var(--popover-foreground);
+  --color-primary:               var(--primary);
+  --color-primary-foreground:    var(--primary-foreground);
+  --color-secondary:             var(--secondary);
+  --color-secondary-foreground:  var(--secondary-foreground);
+  --color-muted:                 var(--muted);
+  --color-muted-foreground:      var(--muted-foreground);
+  --color-accent:                var(--accent);
+  --color-accent-foreground:     var(--accent-foreground);
+  --color-destructive:           var(--destructive);
+  --color-destructive-foreground:var(--destructive-foreground);
+  --color-border:                var(--border);
+  --color-input:                 var(--input);
+  --color-ring:                  var(--ring);
+
+  /* Charts */
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
 
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
+  /* Sidebar */
+  --color-sidebar:                    var(--sidebar);
+  --color-sidebar-foreground:         var(--sidebar-foreground);
+  --color-sidebar-primary:            var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent:             var(--sidebar-accent);
+  --color-sidebar-accent-foreground:  var(--sidebar-accent-foreground);
+  --color-sidebar-border:             var(--sidebar-border);
+  --color-sidebar-ring:               var(--sidebar-ring);
+
+  /* Fonts */
+  --font-sans:  var(--font-sans);
+  --font-mono:  var(--font-mono);
   --font-serif: var(--font-serif);
 
+  /* Radii (derived from --radius) */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
+  /* Shadows */
   --shadow-2xs: var(--shadow-2xs);
-  --shadow-xs: var(--shadow-xs);
-  --shadow-sm: var(--shadow-sm);
-  --shadow: var(--shadow);
-  --shadow-md: var(--shadow-md);
-  --shadow-lg: var(--shadow-lg);
-  --shadow-xl: var(--shadow-xl);
+  --shadow-xs:  var(--shadow-xs);
+  --shadow-sm:  var(--shadow-sm);
+  --shadow:     var(--shadow);
+  --shadow-md:  var(--shadow-md);
+  --shadow-lg:  var(--shadow-lg);
+  --shadow-xl:  var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
 }
 
+/* ============================================================
+   BASE LAYER
+   App-wide resets and defaults.
+   ============================================================ */
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -158,6 +243,7 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* Mobile-first tap targets: every form control is at least 40px tall. */
   input, button, [role="combobox"] {
     min-height: 2.5rem;
   }

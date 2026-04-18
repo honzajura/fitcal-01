@@ -174,7 +174,7 @@ export default function TdeeCalculator() {
 
       {/* Results */}
       {result && (
-        <Card>
+        <Card className="bg-muted shadow-sm ring-0">
           <CardHeader className="pb-4">
             <CardTitle className="text-base font-medium">Your results</CardTitle>
           </CardHeader>
