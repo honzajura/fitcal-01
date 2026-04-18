@@ -26,7 +26,7 @@
      zinc-900  oklch(0.210 0.006 285.885)
      zinc-950  oklch(0.141 0.005 285.823)
 
-   Brand red: oklch(0.6152 0.1657 26.98)
+   Brand red: #FF5823
    ============================================================ */
 
 :root {
@@ -54,7 +54,7 @@
   --ring:   oklch(0.871 0.006 286.286);  /* zinc-300 */
 
   /* --- Brand --- */
-  --primary:            oklch(0.6152 0.1657 26.98);  /* brand red */
+  --primary:            #FF5823;  /* brand red */
   --primary-foreground: oklch(1 0 0);
 
   /* --- Destructive / error --- */
@@ -127,22 +127,22 @@
          In dark mode secondary/accent use brand red by design,
          not grey — only --muted stays neutral. */
   --muted:                oklch(0.274 0.006 286.033); /* zinc-800 */
-  --secondary:            oklch(0.6152 0.1657 26.98); /* brand red */
+  --secondary:            #FF5823; /* brand red */
   --secondary-foreground: oklch(0 0 0);
-  --accent:               oklch(0.6152 0.1657 26.98); /* brand red */
+  --accent:               #FF5823; /* brand red */
   --accent-foreground:    oklch(0 0 0);
 
   /* --- Borders, inputs, focus ring --- */
   --border: oklch(0.370 0.013 285.805);   /* zinc-700 */
   --input:  oklch(0.274 0.006 286.033);   /* zinc-800 */
-  --ring:   oklch(0.6152 0.1657 26.98);   /* brand red focus */
+  --ring:   #FF5823;   /* brand red focus */
 
   /* --- Brand --- */
-  --primary:            oklch(0.6152 0.1657 26.98);
+  --primary:            #FF5823;
   --primary-foreground: oklch(0 0 0);
 
   /* --- Destructive (uses brand red in dark) --- */
-  --destructive:            oklch(0.6152 0.1657 26.98);
+  --destructive:            #FF5823;
   --destructive-foreground: oklch(0 0 0);
 
   /* --- Charts --- */
@@ -150,17 +150,17 @@
   --chart-2: oklch(0.8299 0.1718 107.4066);
   --chart-3: oklch(0.5798 0.1829 259.5141);
   --chart-4: oklch(0.4962 0.2332 288.0574);
-  --chart-5: oklch(0.6152 0.1657 26.98);
+  --chart-5: #FF5823;
 
   /* --- Sidebar --- */
   --sidebar:                    oklch(0 0 0);
   --sidebar-foreground:         oklch(1 0 0);
-  --sidebar-primary:            oklch(0.6152 0.1657 26.98);
+  --sidebar-primary:            #FF5823;
   --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent:             oklch(0.6152 0.1657 26.98);
+  --sidebar-accent:             #FF5823;
   --sidebar-accent-foreground:  oklch(0 0 0);
   --sidebar-border:             oklch(0 0 0);
-  --sidebar-ring:               oklch(0.6152 0.1657 26.98);
+  --sidebar-ring:               #FF5823;
 }
 
 /* ============================================================

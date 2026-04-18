@@ -77,7 +77,7 @@ export function StepperInput({ value, onChange, min, max, step = 1, suffix, deci
           onChange={handleChange}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
-          className="w-full min-w-0 text-center text-2xl font-bold font-mono tabular-nums bg-transparent border-none outline-none"
+          className="w-full min-w-0 text-center text-3xl font-bold font-mono tabular-nums bg-transparent border-none outline-none"
         />
         {suffix && <span className="text-lg font-normal shrink-0">{suffix}</span>}
       </div>
