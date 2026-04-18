@@ -59,7 +59,7 @@ export default function TdeeCalculator() {
   }
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 pt-4 pb-8 grid gap-8 md:grid-cols-[1fr_360px]">
+    <div className="w-full max-w-4xl mx-auto px-4 pt-4 pb-8 grid gap-8 md:grid-cols-[1fr_360px]">
 
       <div className="space-y-6 min-w-0">
 
@@ -84,14 +84,16 @@ export default function TdeeCalculator() {
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-1.5">
           <Label>Gender</Label>
-          <div className="flex gap-2">
-            {(["male", "female"] as Sex[]).map((s) => (
+          <div className="flex">
+            {(["male", "female"] as Sex[]).map((s, i) => (
               <button
                 key={s}
                 onClick={() => setSex(s)}
-                className={`flex-1 flex items-center justify-center rounded-[12px] border h-[66px] text-xl transition-colors ${
+                className={`flex-1 flex items-center justify-center border h-[56px] text-xl transition-colors ${
+                  i === 0 ? "rounded-l-[12px] rounded-r-none" : "rounded-r-[12px] rounded-l-none -ml-px"
+                } ${
                   sex === s
-                    ? "bg-foreground text-background border-foreground"
+                    ? "bg-foreground text-background border-foreground relative z-10"
                     : "bg-card border-border text-muted-foreground hover:text-foreground"
                 }`}
                 aria-label={s}
@@ -142,7 +144,7 @@ export default function TdeeCalculator() {
       <div className="space-y-1.5">
         <Label>Activity level</Label>
         <Select value={activity} onValueChange={(v) => setActivity(v as ActivityKey)}>
-          <SelectTrigger className="w-full bg-card border border-border rounded-[12px] px-4 ![height:66px] text-base">
+          <SelectTrigger className="w-full bg-card border border-border rounded-[12px] px-4 ![height:56px] text-base">
             <SelectValue>{ACTIVITY_MULTIPLIERS[activity].label}</SelectValue>
           </SelectTrigger>
           <SelectContent>
