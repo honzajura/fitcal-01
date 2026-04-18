@@ -67,10 +67,10 @@ export default function TdeeCalculator() {
           <button
             key={u}
             onClick={() => setUnit(u)}
-            className={`flex-1 rounded-full py-2.5 text-sm font-medium transition-colors ${
+            className={`flex-1 rounded-[8px] py-2.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-muted ${
               unit === u
-                ? "bg-foreground text-background rounded-[8px]"
-                : "text-muted-foreground hover:text-foreground rounded-[8px]"
+                ? "bg-foreground text-background"
+                : "text-muted-foreground hover:text-foreground"
             }`}
           >
             {u === "metric" ? "Metric (kg, cm)" : "Imperial (lbs, in)"}
@@ -141,7 +141,7 @@ export default function TdeeCalculator() {
         <Label>Activity level</Label>
         <Select value={activity} onValueChange={(v) => setActivity(v as ActivityKey)}>
           <SelectTrigger className="w-full bg-card border border-border rounded-[12px] px-4 shadow-sm ![height:66px] text-base">
-            <SelectValue />
+            <SelectValue>{ACTIVITY_MULTIPLIERS[activity].label}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             {Object.entries(ACTIVITY_MULTIPLIERS).map(([key, { label }]) => (
@@ -210,7 +210,7 @@ function ResultBox({
       className={`rounded-lg p-3 text-center space-y-0.5 ${
         highlight
           ? "bg-primary text-primary-foreground"
-          : "bg-muted text-muted-foreground"
+          : "bg-background border border-border text-muted-foreground"
       }`}
     >
       <p className="text-xs uppercase tracking-wide font-medium">{label}</p>

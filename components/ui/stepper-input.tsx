@@ -57,36 +57,38 @@ export function StepperInput({ value, onChange, min, max, step = 1, suffix, deci
   const display = decimals !== undefined ? value.toFixed(decimals) : Number.isInteger(value) ? value.toString() : value.toFixed(1);
 
   return (
-    <div className="flex items-center justify-between bg-card border border-border rounded-[12px] px-4 py-3 shadow-sm">
+    <div className="flex items-center justify-between bg-card border border-border rounded-[12px] px-1.5 py-2.5 shadow-sm">
       <Button
         variant="ghost"
         size="icon"
-        className="text-muted-foreground w-10 h-10"
+        className="text-muted-foreground w-9 h-9 shrink-0"
         onClick={decrement}
         aria-label="Decrease"
       >
-        <Minus className="!w-6 !h-6" strokeWidth={2} />
+        <Minus className="!w-5 !h-5" strokeWidth={2} />
       </Button>
-      <div className="flex items-center gap-1">
+      <div className="flex min-w-0 flex-1 items-center justify-center gap-1">
         <input
-          type="number"
+          type="text"
+          inputMode="decimal"
+          pattern="[0-9.,]*"
           value={editing ? raw : display}
           onFocus={handleFocus}
           onChange={handleChange}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
-          className="w-24 text-center text-3xl font-bold font-mono tabular-nums bg-transparent border-none outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          className="w-full min-w-0 text-center text-2xl font-bold font-mono tabular-nums bg-transparent border-none outline-none"
         />
-        {suffix && <span className="text-xl font-normal">{suffix}</span>}
+        {suffix && <span className="text-lg font-normal shrink-0">{suffix}</span>}
       </div>
       <Button
         variant="ghost"
         size="icon"
-        className="text-muted-foreground w-10 h-10"
+        className="text-muted-foreground w-9 h-9 shrink-0"
         onClick={increment}
         aria-label="Increase"
       >
-        <Plus className="!w-6 !h-6" strokeWidth={2} />
+        <Plus className="!w-5 !h-5" strokeWidth={2} />
       </Button>
     </div>
   );

@@ -39,7 +39,7 @@
   --foreground:         oklch(0.21 0.006 285.885);   /* zinc-900 */
   --card-foreground:    oklch(0.21 0.006 285.885);
   --popover-foreground: oklch(0.21 0.006 285.885);
-  --muted-foreground:   oklch(0.552 0.014 285.938);  /* zinc-500, secondary text */
+  --muted-foreground:   oklch(0.442 0.017 285.786);  /* zinc-600, secondary text (AA on white and zinc-100) */
 
   /* --- Neutral fills (subtle grey backgrounds) --- */
   --muted:                oklch(0.967 0.001 286.375); /* zinc-100 */
