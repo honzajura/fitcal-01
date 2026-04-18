@@ -64,18 +64,24 @@ export default function TdeeCalculator() {
       <div className="space-y-6 min-w-0">
 
       {/* Unit toggle */}
-      <div className="flex w-full bg-muted rounded-[12px] p-1 gap-1">
-        {(["metric", "imperial"] as Unit[]).map((u) => (
+      <div className="flex">
+        {(["metric", "imperial"] as Unit[]).map((u, i) => (
           <button
             key={u}
             onClick={() => setUnit(u)}
-            className={`flex-1 rounded-[8px] py-2.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-muted ${
+            className={`flex-1 flex items-center justify-center border h-10 text-sm font-medium transition-colors ${
+              i === 0 ? "rounded-l-[10px] rounded-r-none" : "rounded-r-[10px] rounded-l-none -ml-px"
+            } ${
               unit === u
-                ? "bg-foreground text-background"
-                : "text-muted-foreground hover:text-foreground"
+                ? "bg-foreground text-background border-foreground relative z-10"
+                : "bg-card border-border text-muted-foreground hover:text-foreground"
             }`}
           >
-            {u === "metric" ? "Metric (kg, cm)" : "Imperial (lbs, in)"}
+            {u === "metric" ? (
+              <>Metric<span className="font-normal opacity-70 ml-1.5">(kg, cm)</span></>
+            ) : (
+              <>Imperial<span className="font-normal opacity-70 ml-1.5">(lbs, in)</span></>
+            )}
           </button>
         ))}
       </div>
@@ -113,11 +119,11 @@ export default function TdeeCalculator() {
       {unit === "metric" ? (
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1.5">
-            <Label>Height (cm)</Label>
+            <Label><span>Height <span className="font-normal text-muted-foreground">(cm)</span></span></Label>
             <StepperInput value={height} onChange={setHeight} min={100} max={250} />
           </div>
           <div className="space-y-1.5">
-            <Label>Weight (kg)</Label>
+            <Label><span>Weight <span className="font-normal text-muted-foreground">(kg)</span></span></Label>
             <StepperInput value={weight} onChange={setWeight} min={20} max={300} step={0.5} decimals={1} />
           </div>
         </div>
@@ -125,7 +131,7 @@ export default function TdeeCalculator() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <Label>Height (ft)</Label>
+              <Label><span>Height <span className="font-normal text-muted-foreground">(ft)</span></span></Label>
               <StepperInput value={heightFt} onChange={setHeightFt} min={3} max={8} />
             </div>
             <div className="space-y-1.5">
@@ -134,7 +140,7 @@ export default function TdeeCalculator() {
             </div>
           </div>
           <div className="space-y-1.5">
-            <Label>Weight (lbs)</Label>
+            <Label><span>Weight <span className="font-normal text-muted-foreground">(lbs)</span></span></Label>
             <StepperInput value={weight} onChange={setWeight} min={44} max={660} step={0.5} decimals={1} />
           </div>
         </div>
@@ -167,7 +173,7 @@ export default function TdeeCalculator() {
             className="size-6 rounded-[8px] [&_svg]:!size-5"
           />
           <Label htmlFor="use-bodyfat" className="cursor-pointer">
-            Include body fat % <span className="text-muted-foreground">(more accurate)</span>
+            <span>Include body fat % <span className="font-normal text-muted-foreground">(more accurate)</span></span>
           </Label>
         </div>
         {useBodyFat && (
@@ -184,7 +190,7 @@ export default function TdeeCalculator() {
         <div className="md:sticky md:top-8 md:self-start">
           <Card>
             <CardHeader className="pb-4">
-              <CardTitle className="text-base font-medium">Your results</CardTitle>
+              <CardTitle className="text-lg font-semibold tracking-tight">Your results</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
