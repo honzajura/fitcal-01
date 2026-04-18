@@ -59,7 +59,9 @@ export default function TdeeCalculator() {
   }
 
   return (
-    <div className="w-full max-w-md mx-auto px-4 py-8 space-y-6">
+    <div className="w-full max-w-5xl mx-auto px-4 py-8 grid gap-8 md:grid-cols-[1fr_360px]">
+
+      <div className="space-y-6 min-w-0">
 
       {/* Unit toggle */}
       <div className="flex w-full bg-muted rounded-[12px] p-1 gap-1">
@@ -167,29 +169,33 @@ export default function TdeeCalculator() {
           </Label>
         </div>
         {useBodyFat && (
-          <div className="grid grid-cols-2 gap-4">
+          <div className="max-w-[200px]">
             <StepperInput value={bodyFat} onChange={setBodyFat} min={3} max={60} />
           </div>
         )}
       </div>
 
+      </div>
+
       {/* Results */}
       {result && (
-        <Card className="bg-muted ring-0">
-          <CardHeader className="pb-4">
-            <CardTitle className="text-base font-medium">Your results</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-3">
-              <ResultBox label="BMR" value={result.bmr} sub="base metabolic rate" />
-              <ResultBox label="TDEE" value={result.tdee} sub="maintenance calories" highlight />
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <ResultBox label="Cut" value={result.tdee - 500} sub="−500 kcal/day" />
-              <ResultBox label="Bulk" value={result.tdee + 500} sub="+500 kcal/day" />
-            </div>
-          </CardContent>
-        </Card>
+        <div className="md:sticky md:top-8 md:self-start">
+          <Card>
+            <CardHeader className="pb-4">
+              <CardTitle className="text-base font-medium">Your results</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <ResultBox label="BMR" value={result.bmr} sub="base metabolic rate" />
+                <ResultBox label="TDEE" value={result.tdee} sub="maintenance calories" highlight />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <ResultBox label="Cut" value={result.tdee - 500} sub="−500 kcal/day" />
+                <ResultBox label="Bulk" value={result.tdee + 500} sub="+500 kcal/day" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   );
@@ -211,7 +217,7 @@ function ResultBox({
       className={`rounded-lg p-3 text-center space-y-0.5 ${
         highlight
           ? "bg-primary text-primary-foreground"
-          : "bg-background border border-border text-muted-foreground"
+          : "bg-muted text-muted-foreground"
       }`}
     >
       <p className="text-xs uppercase tracking-wide font-medium">{label}</p>
