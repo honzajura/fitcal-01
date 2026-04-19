@@ -12,9 +12,10 @@ interface StepperInputProps {
   step?: number;
   suffix?: string;
   decimals?: number;
+  compact?: boolean;
 }
 
-export function StepperInput({ value, onChange, min, max, step = 1, suffix, decimals }: StepperInputProps) {
+export function StepperInput({ value, onChange, min, max, step = 1, suffix, decimals, compact }: StepperInputProps) {
   const [editing, setEditing] = useState(false);
   const [raw, setRaw] = useState("");
 
@@ -57,7 +58,7 @@ export function StepperInput({ value, onChange, min, max, step = 1, suffix, deci
   const display = decimals !== undefined ? value.toFixed(decimals) : Number.isInteger(value) ? value.toString() : value.toFixed(1);
 
   return (
-    <div className="flex h-[56px] items-center justify-between bg-card border border-border rounded-[12px] px-1.5">
+    <div className={`flex items-center justify-between bg-card border border-border rounded-[12px] px-1.5 ${compact ? "h-[44px]" : "h-[56px]"}`}>
       <Button
         variant="ghost"
         size="icon"
@@ -77,7 +78,7 @@ export function StepperInput({ value, onChange, min, max, step = 1, suffix, deci
           onChange={handleChange}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
-          className="w-full min-w-0 text-center text-3xl font-bold font-mono tabular-nums bg-transparent border-none outline-none dark:text-foreground/85"
+          className={`w-full min-w-0 text-center font-bold font-mono tabular-nums bg-transparent border-none outline-none dark:text-foreground/85 ${compact ? "text-xl" : "text-3xl"}`}
         />
         {suffix && <span className="text-lg font-normal shrink-0">{suffix}</span>}
       </div>
