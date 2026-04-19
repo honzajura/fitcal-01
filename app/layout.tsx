@@ -40,6 +40,18 @@ export default function RootLayout({
             </div>
           </header>
           {children}
+          <footer className="w-full mt-auto py-6 md:fixed md:bottom-0 md:left-0 md:right-0 md:py-3 md:bg-background/80 md:backdrop-blur-sm md:border-t md:border-border/40">
+            <div className="max-w-4xl mx-auto px-4 flex justify-center">
+              <a
+                href="https://railway.com?referralCode=zlqyw6"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Hosted on Railway
+              </a>
+            </div>
+          </footer>
         </ThemeProvider>
       </body>
     </html>
