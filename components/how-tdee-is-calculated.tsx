@@ -21,7 +21,7 @@ export function HowTdeeIsCalculated() {
         </div>
 
         <div className="min-w-0 md:mt-10">
-          <Card className="py-6">
+          <Card className="py-6 ring-foreground/20">
             <CardContent className="px-6 space-y-3">
               <div
                 className="flex h-2.5 w-full overflow-hidden rounded-full"

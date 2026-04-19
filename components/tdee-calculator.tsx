@@ -193,19 +193,15 @@ export default function TdeeCalculator() {
       {/* Results */}
       {result && (
         <div className="md:sticky md:top-8 md:self-start animate-in fade-in-0 zoom-in-95 duration-300">
-          <Card className="py-6">
-            <CardHeader className="px-6 pb-4">
+          <Card className="py-6 ring-foreground/20">
+            <CardHeader className="px-6 pb-2">
               <CardTitle className="text-lg font-semibold tracking-tight">Your results</CardTitle>
             </CardHeader>
-            <CardContent className="px-6 space-y-4">
-              <div className="grid grid-cols-2 gap-3">
-                <ResultBox label="BMR" value={result.bmr} sub="base metabolic rate" delay={0} />
-                <ResultBox label="TDEE" value={result.tdee} sub="maintenance calories" highlight delay={60} />
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <ResultBox label="Cut" value={result.tdee - 500} sub="−500 kcal/day" delay={120} />
-                <ResultBox label="Bulk" value={result.tdee + 500} sub="+500 kcal/day" delay={180} />
-              </div>
+            <CardContent className="px-6 space-y-3">
+              <ResultRow label="TDEE" sub="Maintenance calories" value={result.tdee} highlight delay={0} />
+              <ResultRow label="BMR" sub="Base metabolic rate" value={result.bmr} delay={60} />
+              <ResultRow label="Cut" sub="−500 kcal/day" value={result.tdee - 500} delay={120} />
+              <ResultRow label="Bulk" sub="+500 kcal/day" value={result.tdee + 500} delay={180} />
             </CardContent>
           </Card>
         </div>
@@ -214,36 +210,45 @@ export default function TdeeCalculator() {
   );
 }
 
-function ResultBox({
+function ResultRow({
   label,
-  value,
   sub,
+  value,
   highlight,
   delay = 0,
 }: {
   label: string;
-  value: number;
   sub: string;
+  value: number;
   highlight?: boolean;
   delay?: number;
 }) {
   return (
     <div
-      className={`rounded-lg p-3 text-center space-y-0.5 animate-in fade-in-0 slide-in-from-bottom-2 duration-200 ${
-        highlight
-          ? "bg-primary text-primary-foreground"
-          : "bg-muted text-muted-foreground"
+      className={`rounded-[8px] px-4 py-3.5 flex items-center justify-between animate-in fade-in-0 slide-in-from-bottom-2 duration-200 ${
+        highlight ? "bg-primary text-primary-foreground" : "bg-muted"
       }`}
       style={{ animationDelay: `${delay}ms`, animationFillMode: "both" }}
     >
-      <p className="text-xs uppercase tracking-wide font-medium">{label}</p>
-      <p
-        key={value}
-        className={`text-3xl font-bold font-mono tabular-nums animate-in fade-in-0 zoom-in-95 duration-150 ${highlight ? "text-primary-foreground" : "text-foreground dark:text-foreground/85"}`}
-      >
-        {value}
-      </p>
-      <p className="text-xs">{sub}</p>
+      <div>
+        <p className={`text-base font-bold uppercase tracking-wide ${highlight ? "text-primary-foreground" : "text-foreground"}`}>
+          {label}
+        </p>
+        <p className={`text-sm font-medium ${highlight ? "text-primary-foreground" : "text-muted-foreground"}`}>
+          {sub}
+        </p>
+      </div>
+      <div className="flex items-baseline gap-1.5">
+        <p
+          key={value}
+          className={`text-3xl font-bold font-mono tabular-nums animate-in fade-in-0 zoom-in-95 duration-150 ${highlight ? "text-primary-foreground" : "text-foreground"}`}
+        >
+          {value}
+        </p>
+        <span className={`text-sm ${highlight ? "text-primary-foreground/75" : "text-muted-foreground"}`}>
+          kcal
+        </span>
+      </div>
     </div>
   );
 }
