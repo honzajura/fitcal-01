@@ -236,6 +236,10 @@
    BASE LAYER
    App-wide resets and defaults.
    ============================================================ */
+@keyframes segment-grow {
+  from { width: 0% }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

@@ -28,14 +28,26 @@ export function HowTdeeIsCalculated() {
                 role="img"
                 aria-label="Typical TDEE composition: 70% BMR, 20% physical activity, 10% thermic effect of food"
               >
-                {SEGMENTS.map((s) => (
-                  <div key={s.label} className={s.fill} style={{ width: `${s.pct}%` }} />
+                {SEGMENTS.map((s, i) => (
+                  <div
+                    key={s.label}
+                    className={s.fill}
+                    style={{
+                      width: `${s.pct}%`,
+                      animation: `segment-grow 700ms cubic-bezier(0.23, 1, 0.32, 1) both`,
+                      animationDelay: `${i * 120}ms`,
+                    }}
+                  />
                 ))}
               </div>
 
               <ul className="space-y-1.5 text-sm">
-                {SEGMENTS.map((s) => (
-                  <li key={s.label} className="flex items-center gap-3">
+                {SEGMENTS.map((s, i) => (
+                  <li
+                    key={s.label}
+                    className="flex items-center gap-3 animate-in fade-in-0 slide-in-from-bottom-1 duration-200"
+                    style={{ animationDelay: `${400 + i * 60}ms`, animationFillMode: "both" }}
+                  >
                     <span className={`inline-block w-2.5 h-2.5 rounded-full ${s.fill}`} aria-hidden />
                     <span className="flex-1 text-muted-foreground">{s.label}</span>
                     <span className="font-mono tabular-nums text-foreground">{s.pct}%</span>

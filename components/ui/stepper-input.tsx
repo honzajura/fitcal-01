@@ -65,7 +65,7 @@ export function StepperInput({ value, onChange, min, max, step = 1, suffix, deci
         onClick={decrement}
         aria-label="Decrease"
       >
-        <Minus className="!w-5 !h-5 transition-transform group-hover:scale-110" strokeWidth={2} />
+        <Minus className="!w-5 !h-5 transition-transform [@media(hover:hover)]:group-hover:scale-110" strokeWidth={2} />
       </Button>
       <div className="flex min-w-0 flex-1 items-center justify-center gap-1">
         <input
@@ -88,7 +88,7 @@ export function StepperInput({ value, onChange, min, max, step = 1, suffix, deci
         onClick={increment}
         aria-label="Increase"
       >
-        <Plus className="!w-5 !h-5 transition-transform group-hover:scale-110" strokeWidth={2} />
+        <Plus className="!w-5 !h-5 transition-transform [@media(hover:hover)]:group-hover:scale-110" strokeWidth={2} />
       </Button>
     </div>
   );

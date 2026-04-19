@@ -69,7 +69,7 @@ export default function TdeeCalculator() {
           <button
             key={u}
             onClick={() => setUnit(u)}
-            className={`flex-1 flex items-center justify-center border h-10 text-sm font-medium transition-colors ${
+            className={`flex-1 flex items-center justify-center border h-10 text-sm font-medium transition-[transform,background-color,color,border-color] active:scale-[0.97] ${
               i === 0 ? "rounded-l-[10px] rounded-r-none" : "rounded-r-[10px] rounded-l-none -ml-px"
             } ${
               unit === u
@@ -95,7 +95,7 @@ export default function TdeeCalculator() {
               <button
                 key={s}
                 onClick={() => setSex(s)}
-                className={`group flex-1 flex items-center justify-center border h-[56px] text-xl transition-colors ${
+                className={`group flex-1 flex items-center justify-center border h-[56px] text-xl transition-[transform,background-color,color,border-color] active:scale-[0.97] ${
                   i === 0 ? "rounded-l-[12px] rounded-r-none" : "rounded-r-[12px] rounded-l-none -ml-px"
                 } ${
                   sex === s
@@ -105,8 +105,8 @@ export default function TdeeCalculator() {
                 aria-label={s}
               >
                 {s === "male"
-                  ? <Mars className="w-6 h-6 transition-transform group-hover:scale-110" strokeWidth={2} />
-                  : <Venus className="w-6 h-6 transition-transform group-hover:scale-110" strokeWidth={2} />}
+                  ? <Mars className="w-6 h-6 transition-transform [@media(hover:hover)]:group-hover:scale-110" strokeWidth={2} />
+                  : <Venus className="w-6 h-6 transition-transform [@media(hover:hover)]:group-hover:scale-110" strokeWidth={2} />}
               </button>
             ))}
           </div>
@@ -182,7 +182,7 @@ export default function TdeeCalculator() {
           </Label>
         </div>
         {useBodyFat && (
-          <div className="max-w-[200px]">
+          <div className="max-w-[200px] animate-in fade-in-0 slide-in-from-top-1 duration-150">
             <StepperInput value={bodyFat} onChange={setBodyFat} min={3} max={60} />
           </div>
         )}
@@ -192,19 +192,19 @@ export default function TdeeCalculator() {
 
       {/* Results */}
       {result && (
-        <div className="md:sticky md:top-8 md:self-start">
+        <div className="md:sticky md:top-8 md:self-start animate-in fade-in-0 zoom-in-95 duration-300">
           <Card className="py-6">
             <CardHeader className="px-6 pb-4">
               <CardTitle className="text-lg font-semibold tracking-tight">Your results</CardTitle>
             </CardHeader>
             <CardContent className="px-6 space-y-4">
               <div className="grid grid-cols-2 gap-3">
-                <ResultBox label="BMR" value={result.bmr} sub="base metabolic rate" />
-                <ResultBox label="TDEE" value={result.tdee} sub="maintenance calories" highlight />
+                <ResultBox label="BMR" value={result.bmr} sub="base metabolic rate" delay={0} />
+                <ResultBox label="TDEE" value={result.tdee} sub="maintenance calories" highlight delay={60} />
               </div>
               <div className="grid grid-cols-2 gap-3">
-                <ResultBox label="Cut" value={result.tdee - 500} sub="−500 kcal/day" />
-                <ResultBox label="Bulk" value={result.tdee + 500} sub="+500 kcal/day" />
+                <ResultBox label="Cut" value={result.tdee - 500} sub="−500 kcal/day" delay={120} />
+                <ResultBox label="Bulk" value={result.tdee + 500} sub="+500 kcal/day" delay={180} />
               </div>
             </CardContent>
           </Card>
@@ -219,22 +219,28 @@ function ResultBox({
   value,
   sub,
   highlight,
+  delay = 0,
 }: {
   label: string;
   value: number;
   sub: string;
   highlight?: boolean;
+  delay?: number;
 }) {
   return (
     <div
-      className={`rounded-lg p-3 text-center space-y-0.5 ${
+      className={`rounded-lg p-3 text-center space-y-0.5 animate-in fade-in-0 slide-in-from-bottom-2 duration-200 ${
         highlight
           ? "bg-primary text-primary-foreground"
           : "bg-muted text-muted-foreground"
       }`}
+      style={{ animationDelay: `${delay}ms`, animationFillMode: "both" }}
     >
       <p className="text-xs uppercase tracking-wide font-medium">{label}</p>
-      <p className={`text-3xl font-bold font-mono tabular-nums ${highlight ? "text-primary-foreground" : "text-foreground dark:text-foreground/85"}`}>
+      <p
+        key={value}
+        className={`text-3xl font-bold font-mono tabular-nums animate-in fade-in-0 zoom-in-95 duration-150 ${highlight ? "text-primary-foreground" : "text-foreground dark:text-foreground/85"}`}
+      >
         {value}
       </p>
       <p className="text-xs">{sub}</p>
