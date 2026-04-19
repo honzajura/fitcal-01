@@ -15,11 +15,11 @@ import {
 } from "@/components/ui/select";
 
 const ACTIVITY_MULTIPLIERS = {
-  sedentary: { label: "Sedentary (office job)", value: 1.2 },
-  light: { label: "Lightly active (1–3 days/week)", value: 1.375 },
-  moderate: { label: "Moderately active (3–5 days/week)", value: 1.55 },
-  active: { label: "Very active (6–7 days/week)", value: 1.725 },
-  extra: { label: "Extra active (physical job or 2× training)", value: 1.9 },
+  sedentary: { name: "Sedentary", detail: "office job", value: 1.2 },
+  light: { name: "Lightly active", detail: "1–3 days/week", value: 1.375 },
+  moderate: { name: "Moderately active", detail: "3–5 days/week", value: 1.55 },
+  active: { name: "Very active", detail: "6–7 days/week", value: 1.725 },
+  extra: { name: "Extra active", detail: "physical job or 2× training", value: 1.9 },
 };
 
 type ActivityKey = keyof typeof ACTIVITY_MULTIPLIERS;
@@ -59,7 +59,7 @@ export default function TdeeCalculator() {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 pt-4 pb-8 grid gap-8 md:grid-cols-[1fr_360px]">
+    <div className="w-full max-w-4xl mx-auto px-4 pt-4 pb-8 grid gap-8 md:grid-cols-[1fr_420px]">
 
       <div className="space-y-6 min-w-0">
 
@@ -73,7 +73,7 @@ export default function TdeeCalculator() {
               i === 0 ? "rounded-l-[10px] rounded-r-none" : "rounded-r-[10px] rounded-l-none -ml-px"
             } ${
               unit === u
-                ? "bg-foreground text-background border-foreground relative z-10"
+                ? "bg-foreground text-background border-foreground relative z-10 dark:bg-foreground/85 dark:border-foreground/85"
                 : "bg-card border-border text-muted-foreground hover:text-foreground"
             }`}
           >
@@ -89,28 +89,30 @@ export default function TdeeCalculator() {
       {/* Gender + Age */}
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <Label>Gender</Label>
+          <Label className="ml-1">Gender</Label>
           <div className="flex">
             {(["male", "female"] as Sex[]).map((s, i) => (
               <button
                 key={s}
                 onClick={() => setSex(s)}
-                className={`flex-1 flex items-center justify-center border h-[56px] text-xl transition-colors ${
+                className={`group flex-1 flex items-center justify-center border h-[56px] text-xl transition-colors ${
                   i === 0 ? "rounded-l-[12px] rounded-r-none" : "rounded-r-[12px] rounded-l-none -ml-px"
                 } ${
                   sex === s
-                    ? "bg-foreground text-background border-foreground relative z-10"
+                    ? "bg-foreground text-background border-foreground relative z-10 dark:bg-foreground/85 dark:border-foreground/85"
                     : "bg-card border-border text-muted-foreground hover:text-foreground"
                 }`}
                 aria-label={s}
               >
-                {s === "male" ? <Mars className="w-6 h-6" strokeWidth={2} /> : <Venus className="w-6 h-6" strokeWidth={2} />}
+                {s === "male"
+                  ? <Mars className="w-6 h-6 transition-transform group-hover:scale-110" strokeWidth={2} />
+                  : <Venus className="w-6 h-6 transition-transform group-hover:scale-110" strokeWidth={2} />}
               </button>
             ))}
           </div>
         </div>
         <div className="space-y-1.5">
-          <Label>Age</Label>
+          <Label className="ml-1">Age</Label>
           <StepperInput value={age} onChange={setAge} min={10} max={100} />
         </div>
       </div>
@@ -119,11 +121,11 @@ export default function TdeeCalculator() {
       {unit === "metric" ? (
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1.5">
-            <Label><span>Height <span className="font-normal text-muted-foreground">(cm)</span></span></Label>
+            <Label className="ml-1"><span>Height <span className="font-normal text-muted-foreground">(cm)</span></span></Label>
             <StepperInput value={height} onChange={setHeight} min={100} max={250} />
           </div>
           <div className="space-y-1.5">
-            <Label><span>Weight <span className="font-normal text-muted-foreground">(kg)</span></span></Label>
+            <Label className="ml-1"><span>Weight <span className="font-normal text-muted-foreground">(kg)</span></span></Label>
             <StepperInput value={weight} onChange={setWeight} min={20} max={300} step={0.5} decimals={1} />
           </div>
         </div>
@@ -131,16 +133,16 @@ export default function TdeeCalculator() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <Label><span>Height <span className="font-normal text-muted-foreground">(ft)</span></span></Label>
+              <Label className="ml-1"><span>Height <span className="font-normal text-muted-foreground">(ft)</span></span></Label>
               <StepperInput value={heightFt} onChange={setHeightFt} min={3} max={8} />
             </div>
             <div className="space-y-1.5">
-              <Label>Inches</Label>
+              <Label className="ml-1">Inches</Label>
               <StepperInput value={heightIn} onChange={setHeightIn} min={0} max={11} />
             </div>
           </div>
           <div className="space-y-1.5">
-            <Label><span>Weight <span className="font-normal text-muted-foreground">(lbs)</span></span></Label>
+            <Label className="ml-1"><span>Weight <span className="font-normal text-muted-foreground">(lbs)</span></span></Label>
             <StepperInput value={weight} onChange={setWeight} min={44} max={660} step={0.5} decimals={1} />
           </div>
         </div>
@@ -148,15 +150,18 @@ export default function TdeeCalculator() {
 
       {/* Activity level */}
       <div className="space-y-1.5">
-        <Label>Activity level</Label>
+        <Label className="ml-1">Activity level</Label>
         <Select value={activity} onValueChange={(v) => setActivity(v as ActivityKey)}>
           <SelectTrigger className="w-full bg-card border border-border rounded-[12px] px-4 ![height:56px] text-base">
-            <SelectValue>{ACTIVITY_MULTIPLIERS[activity].label}</SelectValue>
+            <SelectValue>
+              {ACTIVITY_MULTIPLIERS[activity].name}{" "}
+              <span className="font-normal text-muted-foreground">({ACTIVITY_MULTIPLIERS[activity].detail})</span>
+            </SelectValue>
           </SelectTrigger>
-          <SelectContent>
-            {Object.entries(ACTIVITY_MULTIPLIERS).map(([key, { label }]) => (
+          <SelectContent alignItemWithTrigger={false}>
+            {Object.entries(ACTIVITY_MULTIPLIERS).map(([key, { name, detail }]) => (
               <SelectItem key={key} value={key}>
-                {label}
+                <span>{name} <span className="font-normal text-muted-foreground">({detail})</span></span>
               </SelectItem>
             ))}
           </SelectContent>
@@ -188,11 +193,11 @@ export default function TdeeCalculator() {
       {/* Results */}
       {result && (
         <div className="md:sticky md:top-8 md:self-start">
-          <Card>
-            <CardHeader className="pb-4">
+          <Card className="py-6">
+            <CardHeader className="px-6 pb-4">
               <CardTitle className="text-lg font-semibold tracking-tight">Your results</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="px-6 space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <ResultBox label="BMR" value={result.bmr} sub="base metabolic rate" />
                 <ResultBox label="TDEE" value={result.tdee} sub="maintenance calories" highlight />
@@ -229,7 +234,7 @@ function ResultBox({
       }`}
     >
       <p className="text-xs uppercase tracking-wide font-medium">{label}</p>
-      <p className={`text-3xl font-bold font-mono tabular-nums ${highlight ? "text-primary-foreground" : "text-foreground"}`}>
+      <p className={`text-3xl font-bold font-mono tabular-nums ${highlight ? "text-primary-foreground" : "text-foreground dark:text-foreground/85"}`}>
         {value}
       </p>
       <p className="text-xs">{sub}</p>

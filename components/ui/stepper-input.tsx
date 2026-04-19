@@ -61,11 +61,11 @@ export function StepperInput({ value, onChange, min, max, step = 1, suffix, deci
       <Button
         variant="ghost"
         size="icon"
-        className="text-muted-foreground w-9 h-9 shrink-0"
+        className="group text-muted-foreground hover:text-foreground hover:bg-transparent dark:hover:bg-transparent w-9 h-9 shrink-0"
         onClick={decrement}
         aria-label="Decrease"
       >
-        <Minus className="!w-5 !h-5" strokeWidth={2} />
+        <Minus className="!w-5 !h-5 transition-transform group-hover:scale-110" strokeWidth={2} />
       </Button>
       <div className="flex min-w-0 flex-1 items-center justify-center gap-1">
         <input
@@ -77,18 +77,18 @@ export function StepperInput({ value, onChange, min, max, step = 1, suffix, deci
           onChange={handleChange}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
-          className="w-full min-w-0 text-center text-3xl font-bold font-mono tabular-nums bg-transparent border-none outline-none"
+          className="w-full min-w-0 text-center text-3xl font-bold font-mono tabular-nums bg-transparent border-none outline-none dark:text-foreground/85"
         />
         {suffix && <span className="text-lg font-normal shrink-0">{suffix}</span>}
       </div>
       <Button
         variant="ghost"
         size="icon"
-        className="text-muted-foreground w-9 h-9 shrink-0"
+        className="group text-muted-foreground hover:text-foreground hover:bg-transparent dark:hover:bg-transparent w-9 h-9 shrink-0"
         onClick={increment}
         aria-label="Increase"
       >
-        <Plus className="!w-5 !h-5" strokeWidth={2} />
+        <Plus className="!w-5 !h-5 transition-transform group-hover:scale-110" strokeWidth={2} />
       </Button>
     </div>
   );
