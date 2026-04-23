@@ -92,7 +92,7 @@ export function ResultsClient({
   }, [age, weight, height, heightFt, heightIn, sex, activity, unit]);
 
   return (
-    <main className="min-h-screen bg-background pb-20">
+    <main className="min-h-dvh bg-background pb-20">
       <div className="max-w-[600px] mx-auto px-4 pt-6 space-y-4">
 
         {/* Chip row */}
@@ -111,7 +111,7 @@ export function ResultsClient({
             onClick={() => setSex(s => s === "male" ? "female" : "male")}
             className="inline-flex items-center justify-center gap-1.5 h-8 w-24 rounded-[10px] border border-border bg-card text-sm font-medium tabular-nums text-foreground hover:bg-muted transition-colors"
           >
-            {sex === "male" ? <Mars className="w-3.5 h-3.5" strokeWidth={2} /> : <Venus className="w-3.5 h-3.5" strokeWidth={2} />}
+            {sex === "male" ? <Mars className="size-3.5" strokeWidth={2} /> : <Venus className="size-3.5" strokeWidth={2} />}
             {sex === "male" ? "Male" : "Female"}
           </button>
 
@@ -167,7 +167,7 @@ export function ResultsClient({
           <Popover open={openChip === "activity"} onOpenChange={o => setOpenChip(o ? "activity" : null)}>
             <PopoverTrigger className="inline-flex items-center gap-1 h-8 px-3 rounded-[10px] border border-border bg-card text-sm font-medium tabular-nums text-foreground hover:bg-muted transition-colors">
               {ACTIVITY[activity].chip}
-              <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
+              <ChevronDown className="size-3.5 text-muted-foreground" />
             </PopoverTrigger>
             <PopoverContent className="w-80 p-1.5">
               {(Object.entries(ACTIVITY) as [ActivityKey, typeof ACTIVITY[ActivityKey]][]).map(([key, { name, detail }]) => (
