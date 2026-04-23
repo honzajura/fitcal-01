@@ -105,8 +105,8 @@ export default function TdeeCalculator() {
                 aria-label={s}
               >
                 {s === "male"
-                  ? <Mars className="w-6 h-6 transition-transform [@media(hover:hover)]:group-hover:scale-110" strokeWidth={2} />
-                  : <Venus className="w-6 h-6 transition-transform [@media(hover:hover)]:group-hover:scale-110" strokeWidth={2} />}
+                  ? <Mars className="size-6 transition-transform [@media(hover:hover)]:group-hover:scale-110" strokeWidth={2} />
+                  : <Venus className="size-6 transition-transform [@media(hover:hover)]:group-hover:scale-110" strokeWidth={2} />}
               </button>
             ))}
           </div>

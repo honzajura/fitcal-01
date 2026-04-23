@@ -11,11 +11,11 @@ export function HowTdeeIsCalculated() {
     <section className="w-full">
       <div className="max-w-4xl mx-auto px-4 py-10 grid gap-8 md:grid-cols-[1fr_420px] items-start">
         <div className="space-y-3 min-w-0">
-          <h2 className="text-lg font-semibold tracking-tight">How TDEE is calculated</h2>
-          <p className="text-sm text-muted-foreground leading-relaxed">
+          <h2 className="text-lg font-semibold tracking-tight text-balance">How TDEE is calculated</h2>
+          <p className="text-base text-muted-foreground leading-7 text-pretty">
             Your <strong className="text-foreground font-medium">Total Daily Energy Expenditure (TDEE)</strong> is how many calories your body burns in a day — including exercise, digestion, and everything in between. It starts with your <strong className="text-foreground font-medium">Basal Metabolic Rate (BMR)</strong>: the calories you'd burn at complete rest. We multiply that by an activity factor to account for movement, workouts, and the energy cost of digesting food (the thermic effect).
           </p>
-          <p className="text-sm text-muted-foreground leading-relaxed">
+          <p className="text-base text-muted-foreground leading-7 text-pretty">
             Even with a sedentary lifestyle you burn meaningfully more than your BMR — which is why we never show BMR alone as your daily target.
           </p>
         </div>
@@ -41,21 +41,21 @@ export function HowTdeeIsCalculated() {
                 ))}
               </div>
 
-              <ul className="space-y-1.5 text-sm">
+              <ul role="list" className="space-y-1.5 text-sm">
                 {SEGMENTS.map((s, i) => (
                   <li
                     key={s.label}
                     className="flex items-center gap-3 animate-in fade-in-0 slide-in-from-bottom-1 duration-200"
                     style={{ animationDelay: `${400 + i * 60}ms`, animationFillMode: "both" }}
                   >
-                    <span className={`inline-block w-2.5 h-2.5 rounded-full ${s.fill}`} aria-hidden />
+                    <span className={`inline-block size-2.5 rounded-full ${s.fill}`} aria-hidden />
                     <span className="flex-1 text-muted-foreground">{s.label}</span>
                     <span className="font-mono tabular-nums text-foreground">{s.pct}%</span>
                   </li>
                 ))}
               </ul>
 
-              <p className="text-xs text-muted-foreground leading-relaxed">
+              <p className="text-sm text-muted-foreground leading-6">
                 Typical adult breakdown. Very active people can see physical activity climb to 30–40% of total burn.
               </p>
             </CardContent>
