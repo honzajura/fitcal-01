@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useSound } from "@web-kits/audio/react";
+import { toggleSound, tabSwitchSound } from "@/lib/sounds";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { StepperInput } from "@/components/ui/stepper-input";
@@ -32,6 +34,8 @@ function calcBMR(weight: number, height: number, age: number, sex: Sex) {
 }
 
 export default function TdeeCalculator() {
+  const playToggle = useSound(toggleSound);
+  const playActivity = useSound(tabSwitchSound);
   const [unit, setUnit] = useState<Unit>("metric");
   const [sex, setSex] = useState<Sex>("male");
   const [age, setAge] = useState(25);
@@ -68,7 +72,7 @@ export default function TdeeCalculator() {
         {(["metric", "imperial"] as Unit[]).map((u, i) => (
           <button
             key={u}
-            onClick={() => setUnit(u)}
+            onClick={() => { playToggle(); setUnit(u); }}
             className={`flex-1 flex items-center justify-center border h-10 text-sm font-medium transition-[transform,background-color,color,border-color] active:scale-[0.97] ${
               i === 0 ? "rounded-l-[10px] rounded-r-none" : "rounded-r-[10px] rounded-l-none -ml-px"
             } ${
@@ -94,7 +98,7 @@ export default function TdeeCalculator() {
             {(["male", "female"] as Sex[]).map((s, i) => (
               <button
                 key={s}
-                onClick={() => setSex(s)}
+                onClick={() => { playToggle(); setSex(s); }}
                 className={`group flex-1 flex items-center justify-center border h-[56px] text-xl transition-[transform,background-color,color,border-color] active:scale-[0.97] ${
                   i === 0 ? "rounded-l-[12px] rounded-r-none" : "rounded-r-[12px] rounded-l-none -ml-px"
                 } ${
@@ -151,7 +155,7 @@ export default function TdeeCalculator() {
       {/* Activity level */}
       <div className="space-y-1.5">
         <Label className="ml-1">Activity level</Label>
-        <Select value={activity} onValueChange={(v) => setActivity(v as ActivityKey)}>
+        <Select value={activity} onValueChange={(v) => { playActivity(); setActivity(v as ActivityKey); }}>
           <SelectTrigger className="w-full bg-card border border-border rounded-[12px] px-4 ![height:56px] text-base">
             <SelectValue>
               {ACTIVITY_MULTIPLIERS[activity].name}{" "}

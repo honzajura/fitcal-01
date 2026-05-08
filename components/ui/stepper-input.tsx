@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus } from "lucide-react";
+import { useSound } from "@web-kits/audio/react";
+import { stepperUpSound, stepperDownSound } from "@/lib/sounds";
 
 interface StepperInputProps {
   value: number;
@@ -18,16 +20,20 @@ interface StepperInputProps {
 export function StepperInput({ value, onChange, min, max, step = 1, suffix, decimals, compact }: StepperInputProps) {
   const [editing, setEditing] = useState(false);
   const [raw, setRaw] = useState("");
+  const playUp = useSound(stepperUpSound);
+  const playDown = useSound(stepperDownSound);
 
   function decrement() {
     const next = parseFloat((value - step).toFixed(10));
     if (min !== undefined && next < min) return;
+    playDown();
     onChange(next);
   }
 
   function increment() {
     const next = parseFloat((value + step).toFixed(10));
     if (max !== undefined && next > max) return;
+    playUp();
     onChange(next);
   }
 

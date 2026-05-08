@@ -4,10 +4,13 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Moon, Sun } from "lucide-react";
+import { useSound } from "@web-kits/audio/react";
+import { toggleSound } from "@/lib/sounds";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const playToggle = useSound(toggleSound);
 
   useEffect(() => setMounted(true), []);
 
@@ -19,7 +22,7 @@ export function ThemeToggle() {
       size="icon"
       className="rounded-full"
       aria-label="Toggle theme"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      onClick={() => { playToggle(); setTheme(theme === "dark" ? "light" : "dark"); }}
     >
       {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
     </Button>

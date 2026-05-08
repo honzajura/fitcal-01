@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Logo } from "@/components/logo";
+import { Providers } from "@/app/providers";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -34,6 +35,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Providers>
           <header className="w-full">
             <div className="max-w-4xl mx-auto px-4 pt-3 flex items-center justify-between">
               <Logo className="h-6 w-auto text-foreground" />
@@ -53,6 +55,7 @@ export default function RootLayout({
               </a>
             </div>
           </footer>
+          </Providers>
         </ThemeProvider>
       </body>
     </html>

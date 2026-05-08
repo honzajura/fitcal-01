@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronDown, Mars, Venus } from "lucide-react";
+import { useSound } from "@web-kits/audio/react";
+import { chipClickSound, tabSwitchSound, toggleSound } from "@/lib/sounds";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { StepperInput } from "@/components/ui/stepper-input";
@@ -61,6 +63,9 @@ export function ResultsClient({
 
   const [openChip, setOpenChip] = useState<string | null>(null);
   const [goal, setGoal] = useState<Goal>("maintenance");
+  const playChip = useSound(chipClickSound);
+  const playTab = useSound(tabSwitchSound);
+  const playToggle = useSound(toggleSound);
 
   const [unit, setUnit]         = useState<Unit>(initialUnit);
   const [sex, setSex]           = useState<Sex>(initialSex);
@@ -100,7 +105,7 @@ export function ResultsClient({
 
           {/* Unit — toggle on click */}
           <button
-            onClick={() => setUnit(u => u === "metric" ? "imperial" : "metric")}
+            onClick={() => { playToggle(); setUnit(u => u === "metric" ? "imperial" : "metric"); }}
             className="inline-flex items-center h-8 px-3 rounded-[10px] border border-border bg-card text-sm font-medium tabular-nums text-foreground hover:bg-muted transition-colors"
           >
             {unit === "metric" ? "Metric" : "Imperial"}
@@ -108,7 +113,7 @@ export function ResultsClient({
 
           {/* Sex — toggle on click */}
           <button
-            onClick={() => setSex(s => s === "male" ? "female" : "male")}
+            onClick={() => { playToggle(); setSex(s => s === "male" ? "female" : "male"); }}
             className="inline-flex items-center justify-center gap-1.5 h-8 w-24 rounded-[10px] border border-border bg-card text-sm font-medium tabular-nums text-foreground hover:bg-muted transition-colors"
           >
             {sex === "male" ? <Mars className="size-3.5" strokeWidth={2} /> : <Venus className="size-3.5" strokeWidth={2} />}
@@ -116,7 +121,7 @@ export function ResultsClient({
           </button>
 
           {/* Age */}
-          <Popover open={openChip === "age"} onOpenChange={o => setOpenChip(o ? "age" : null)}>
+          <Popover open={openChip === "age"} onOpenChange={o => { if (o) playChip(); setOpenChip(o ? "age" : null); }}>
             <PopoverTrigger className="inline-flex items-center h-8 px-3 rounded-[10px] border border-border bg-card text-sm font-medium tabular-nums text-foreground hover:bg-muted transition-colors">
               {age} y/o
             </PopoverTrigger>
@@ -126,7 +131,7 @@ export function ResultsClient({
           </Popover>
 
           {/* Height */}
-          <Popover open={openChip === "height"} onOpenChange={o => setOpenChip(o ? "height" : null)}>
+          <Popover open={openChip === "height"} onOpenChange={o => { if (o) playChip(); setOpenChip(o ? "height" : null); }}>
             <PopoverTrigger className="inline-flex items-center h-8 px-3 rounded-[10px] border border-border bg-card text-sm font-medium tabular-nums text-foreground hover:bg-muted transition-colors">
               {unit === "metric" ? `${height} cm` : `${heightFt}'${heightIn}"`}
             </PopoverTrigger>
@@ -149,7 +154,7 @@ export function ResultsClient({
           </Popover>
 
           {/* Weight */}
-          <Popover open={openChip === "weight"} onOpenChange={o => setOpenChip(o ? "weight" : null)}>
+          <Popover open={openChip === "weight"} onOpenChange={o => { if (o) playChip(); setOpenChip(o ? "weight" : null); }}>
             <PopoverTrigger className="inline-flex items-center h-8 px-3 rounded-[10px] border border-border bg-card text-sm font-medium tabular-nums text-foreground hover:bg-muted transition-colors">
               {weight.toFixed(1)} {unit === "metric" ? "kg" : "lbs"}
             </PopoverTrigger>
@@ -164,7 +169,7 @@ export function ResultsClient({
           </Popover>
 
           {/* Activity */}
-          <Popover open={openChip === "activity"} onOpenChange={o => setOpenChip(o ? "activity" : null)}>
+          <Popover open={openChip === "activity"} onOpenChange={o => { if (o) playChip(); setOpenChip(o ? "activity" : null); }}>
             <PopoverTrigger className="inline-flex items-center gap-1 h-8 px-3 rounded-[10px] border border-border bg-card text-sm font-medium tabular-nums text-foreground hover:bg-muted transition-colors">
               {ACTIVITY[activity].chip}
               <ChevronDown className="size-3.5 text-muted-foreground" />
@@ -173,7 +178,7 @@ export function ResultsClient({
               {(Object.entries(ACTIVITY) as [ActivityKey, typeof ACTIVITY[ActivityKey]][]).map(([key, { name, detail }]) => (
                 <button
                   key={key}
-                  onClick={() => { setActivity(key); setOpenChip(null); }}
+                  onClick={() => { playToggle(); setActivity(key); setOpenChip(null); }}
                   className={`w-full text-left px-3 py-2 rounded-[8px] text-sm transition-colors ${
                     key === activity ? "bg-muted font-medium text-foreground" : "text-foreground hover:bg-muted"
                   }`}
@@ -250,7 +255,7 @@ export function ResultsClient({
                 { key: "cut",         label: "Cut" },
                 { key: "bulk",        label: "Bulk" },
               ] as const).map((g, i) => (
-                <button key={g.key} onClick={() => setGoal(g.key)}
+                <button key={g.key} onClick={() => { playTab(); setGoal(g.key); }}
                   className={`flex-1 flex items-center justify-center border h-10 text-sm font-medium transition-[background-color,color,border-color] active:scale-[0.97] ${
                     i === 0 ? "rounded-l-[10px] rounded-r-none"
                     : i === 2 ? "rounded-r-[10px] rounded-l-none -ml-px"
