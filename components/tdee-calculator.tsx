@@ -156,7 +156,10 @@ export default function TdeeCalculator() {
       <div className="space-y-1.5">
         <Label className="ml-1">Activity level</Label>
         <Select value={activity} onValueChange={(v) => { playActivity(); setActivity(v as ActivityKey); }}>
-          <SelectTrigger className="w-full bg-card border border-border rounded-[12px] px-4 ![height:56px] text-base">
+          <SelectTrigger
+            onPointerDown={() => playToggle()}
+            className="w-full bg-card border border-border rounded-[12px] px-4 ![height:56px] text-base"
+          >
             <SelectValue>
               {ACTIVITY_MULTIPLIERS[activity].name}{" "}
               <span className="font-normal text-muted-foreground">({ACTIVITY_MULTIPLIERS[activity].detail})</span>
@@ -178,7 +181,7 @@ export default function TdeeCalculator() {
           <Checkbox
             id="use-bodyfat"
             checked={useBodyFat}
-            onCheckedChange={(v) => setUseBodyFat(!!v)}
+            onCheckedChange={(v) => { playToggle(); setUseBodyFat(!!v); }}
             className="size-6 rounded-[8px] [&_svg]:!size-5"
           />
           <Label htmlFor="use-bodyfat" className="cursor-pointer">
